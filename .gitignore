@@ -1,0 +1,17 @@
+node_modules
+.history
+.editorconfig
+.npmrc
+.out
+
+# testing
+coverage
+
+# production
+/build
+
+#IDE
+.idea
+
+#Automation
+tests/screenshots
