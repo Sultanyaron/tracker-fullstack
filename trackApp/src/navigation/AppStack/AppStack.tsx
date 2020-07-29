@@ -11,8 +11,8 @@ interface IProps {}
 const AppStack: FC<IProps> = ({}) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="TrackCreateScreen" component={TrackCreate} />
       <Tab.Screen name="TrackStack" component={TrackStack} />
+      <Tab.Screen name="TrackCreateScreen" component={TrackCreate} />
       <Tab.Screen name="AccountScreen" component={Account} />
     </Tab.Navigator>
   );
