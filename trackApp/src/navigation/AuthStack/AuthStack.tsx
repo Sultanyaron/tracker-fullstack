@@ -7,7 +7,7 @@ interface IProps {}
 
 const AuthStack: FC<IProps> = ({}) => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SignUpScreen" component={SignUp} />
       <Stack.Screen name="SignInScreen" component={SignIn} />
     </Stack.Navigator>
