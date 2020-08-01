@@ -1,47 +1,46 @@
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
-import MapView, { Polyline, LatLng } from 'react-native-maps';
+import MapView, { Circle } from 'react-native-maps';
 import { StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
+import { currentLocationSelector } from '../../store/location/location.selectors';
 
 interface IProps {}
 
 const Map: FC<IProps> = ({}) => {
-  let points = [] as LatLng[];
+  const currentLocation = useSelector(currentLocationSelector);
 
-  for (let i = 0; i < 20; i++) {
-    if (i % 2 === 0) {
-      points.push({
-        latitude: 37.33233 + i * 0.001,
-        longitude: -122.03121 + i * 0.001,
-      });
-    } else {
-      points.push({
-        latitude: 37.33233 + i * 0.002,
-        longitude: -122.03121 + i * 0.001,
-      });
-    }
+  if (!currentLocation) {
+    return <S.Loader size="large" />;
   }
-
   return (
     <S.Container>
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 37.33233,
-          longitude: -122.03121,
+          ...currentLocation.coords,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
       >
-        <Polyline coordinates={points} />
+        <Circle
+          center={currentLocation.coords}
+          radius={30}
+          strokeColor="rgba(158, 158, 255, 1.0)"
+          fillColor="rgba(158, 158, 255, 0.3)"
+        />
+        {/* <Polyline coordinates={points} /> */}
       </MapView>
     </S.Container>
   );
 };
 
 const Container = styled.View``;
+const Loader = styled.ActivityIndicator`
+  margin-top: 200px;
+`;
 
-const S = { Container };
+const S = { Container, Loader };
 
 const styles = StyleSheet.create({
   map: {

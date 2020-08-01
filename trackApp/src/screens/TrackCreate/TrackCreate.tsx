@@ -1,43 +1,29 @@
 // import '../../ mocks/_mockLocation';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components/native';
 import { Text } from 'react-native-elements';
 import Map from '../../components/Map/Map';
-import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
+import TrackForm from '../../components/TrackForm/TrackForm';
+import { useDispatch } from 'react-redux';
+import { addLocation } from '../../store/location/location.actions';
+import useLocation from '../../hooks/useLocation';
+import { LocationData } from 'expo-location';
+import { useIsFocused } from '@react-navigation/native';
 
 interface IProps {}
 
 const TrackCreate: FC<IProps> = ({}) => {
-  const [error, setError] = useState(null);
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestPermissionsAsync();
-      if (!granted) {
-        throw new Error('Location permission not granted');
-      }
-      await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        location => {
-          console.log(location);
-        }
-      );
-    } catch (e) {
-      setError(e);
-    }
-  };
+  const dispatch = useDispatch();
+  const onLocationChange = (location: LocationData) => dispatch(addLocation(location));
+  const isFocused = useIsFocused();
+  const { error } = useLocation(onLocationChange, isFocused);
 
-  useEffect(() => {
-    startWatching();
-  }, []);
   return (
     <S.Container>
       <S.Title h2>Create a track</S.Title>
       <Map />
       {error ? <Text>Please enable location services</Text> : null}
+      <TrackForm />
     </S.Container>
   );
 };
