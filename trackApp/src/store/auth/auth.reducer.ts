@@ -1,3 +1,4 @@
+import { INIT_AUTH_FAILURE } from './auth.types';
 import {
   SIGN_UP_REQUEST,
   User,
@@ -11,6 +12,7 @@ import {
   INIT_AUTH_SUCCESS,
   LOGOUT,
 } from './auth.types';
+import { StyleSheetManager } from 'styled-components';
 const initialState = {
   isSignedIn: false,
   isSigningUp: false,
@@ -78,6 +80,12 @@ const authReducer = (state = initialState, action: AuthActionsType): typeof init
         isInitializingAuth: false,
         isSignedIn: true,
         user: action.payload,
+      };
+
+    case INIT_AUTH_FAILURE:
+      return {
+        ...state,
+        isInitializingAuth: false,
       };
     case LOGOUT:
       return initialState;
