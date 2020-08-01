@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUpRequest } from '../../../store/auth/auth.actions';
+import { signInRequest } from '../../../store/auth/auth.actions';
 import { authSelector } from '../../../store/auth/auth.selectors';
 
-const useSignUp = () => {
+const useSignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const signUp = () => {
-    dispatch(signUpRequest({ email, password }));
+    dispatch(signInRequest({ email, password }));
   };
 
-  const { isSigningUp, signUpError } = useSelector(authSelector);
+  const { isSigningIn, signInError } = useSelector(authSelector);
 
   return {
     email,
@@ -19,9 +19,9 @@ const useSignUp = () => {
     setEmail,
     setPassword,
     signUp,
-    isSigningUp,
-    signUpError,
+    isSigningIn,
+    signInError,
   };
 };
 
-export default useSignUp;
+export default useSignIn;

@@ -1,21 +1,25 @@
 import React, { FC } from 'react';
-import styled from 'styled-components/native';
-import { Text, Button } from 'react-native';
 import { IStackNavigation } from '../../navigation/Navigation.types';
+import AuthForm from '../../components/AuthForm/AuthForm';
+import useSignIn from './hooks/useSignIn';
 
 interface IProps extends IStackNavigation {}
-
 const SignIn: FC<IProps> = ({ navigation }) => {
-  return (
-    <S.Container>
-      <Text>SignIn</Text>
-      <Button title="Go to signup" onPress={() => navigation.navigate('SignUpScreen')} />
-    </S.Container>
-  );
+  const { email, password, setEmail, setPassword, signUp, isSigningIn, signInError } = useSignIn();
+  const authFormProps = {
+    title: 'Sign In for Tracker',
+    email,
+    setEmail,
+    password,
+    setPassword,
+    loading: isSigningIn,
+    errorMessage: signInError,
+    onSubmit: signUp,
+    linkText: 'Dont have an account? sign up',
+    onLinkPress: () => navigation.navigate('SignUpScreen'),
+    submitBtnTitle: 'Sign In',
+  };
+  return <AuthForm {...authFormProps} />;
 };
-
-const Container = styled.View``;
-
-const S = { Container };
 
 export default SignIn;
