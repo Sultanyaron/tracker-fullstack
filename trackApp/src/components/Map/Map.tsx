@@ -1,14 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import styled from 'styled-components/native';
-import MapView, { Circle } from 'react-native-maps';
+import MapView, { Circle, Polyline } from 'react-native-maps';
 import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { currentLocationSelector } from '../../store/location/location.selectors';
+import {
+  currentLocationSelector,
+  locationsSelector,
+} from '../../store/location/location.selectors';
 
 interface IProps {}
 
 const Map: FC<IProps> = ({}) => {
   const currentLocation = useSelector(currentLocationSelector);
+  const locations = useSelector(locationsSelector);
+  const coordinates = useMemo(() => locations.map(location => location.coords), [locations]);
 
   if (!currentLocation) {
     return <S.Loader size="large" />;
@@ -29,7 +34,7 @@ const Map: FC<IProps> = ({}) => {
           strokeColor="rgba(158, 158, 255, 1.0)"
           fillColor="rgba(158, 158, 255, 0.3)"
         />
-        {/* <Polyline coordinates={points} /> */}
+        <Polyline coordinates={coordinates} />
       </MapView>
     </S.Container>
   );

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Accuracy, requestPermissionsAsync, watchPositionAsync, LocationData } from 'expo-location';
 
 const useLocation = (onLocationChange: (location: LocationData) => void, shouldTrack: boolean) => {
   const [error, setError] = useState(null);
-  const [subscriber, setSubsriber] = useState<{ remove: () => void } | null>(null);
+  const subscriber = useRef<{ remove: () => void } | null>(null);
 
   const startWatching = async () => {
     try {
@@ -21,7 +21,7 @@ const useLocation = (onLocationChange: (location: LocationData) => void, shouldT
           onLocationChange(location);
         }
       );
-      setSubsriber(subs);
+      subscriber.current = subs;
     } catch (e) {
       setError(e);
     }
@@ -30,10 +30,15 @@ const useLocation = (onLocationChange: (location: LocationData) => void, shouldT
   useEffect(() => {
     if (shouldTrack) {
       startWatching();
-    } else if (subscriber) {
-      subscriber?.remove();
-      setSubsriber(null);
+    } else if (subscriber.current) {
+      subscriber?.current.remove();
+      subscriber.current = null;
     }
+    return () => {
+      if (subscriber.current) {
+        subscriber?.current.remove();
+      }
+    };
   }, [shouldTrack]);
 
   return { error };

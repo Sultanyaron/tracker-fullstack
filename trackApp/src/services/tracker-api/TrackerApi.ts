@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const TrackerApi = axios.create({
-  baseURL: 'https://3f618d2da6c4.ngrok.io',
+  baseURL: 'https://2e5fbdb9aa9d.ngrok.io',
 });
 
 export const setTrackerAuthToken = (token: string | null) => {

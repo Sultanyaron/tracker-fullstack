@@ -10,6 +10,8 @@ target 'trackApp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'trackAppTests' do
     inherit! :complete
     # Pods for testing
