@@ -18,7 +18,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/redux-saga": "^0.10.5",
     "@types/styled-components": "^5.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo-location": "^8.3.0",
     "react": "16.13.1",
     "react-native": "0.63.0",
